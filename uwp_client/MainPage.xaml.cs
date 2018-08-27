@@ -1,4 +1,5 @@
-﻿using System;
+﻿using chinook_lib_netstandard_ef.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,26 @@ namespace uwp_client
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            using (var db = new ChinookDbContext())
+            {
+                MediaTypes.ItemsSource = db.media_types.ToList();
+            }
+        }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            using (var db = new ChinookDbContext())
+            {
+                var dvd_media_type = new media_type { Name = NewMediaType.Text };
+                db.media_types.Add(dvd_media_type);
+                db.SaveChanges();
+                        
+                MediaTypes.ItemsSource = db.media_types.ToList();
+            }
         }
     }
 }

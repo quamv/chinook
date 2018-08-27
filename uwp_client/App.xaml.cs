@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using chinook_lib_netstandard_ef.Model;
+using Microsoft.EntityFrameworkCore;
+using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace uwp_client
@@ -30,6 +22,11 @@ namespace uwp_client
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            using (var db = new ChinookDbContext())
+            {
+                db.Database.Migrate();
+            }
         }
 
         /// <summary>
