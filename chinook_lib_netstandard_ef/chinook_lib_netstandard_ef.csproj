@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.0;netstandard2.0</TargetFrameworks>
+    <RuntimeFrameworkVersion>2.0.3</RuntimeFrameworkVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180827023727_Initial.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.2" />
+  </ItemGroup>
+
+</Project>
