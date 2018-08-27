@@ -13,6 +13,8 @@ namespace chinook_lib_netstandard_ef.Model
 
         public DbSet<media_type> media_types{ get; set; }
         public DbSet<genre> genres { get; set; }
+        public DbSet<track> tracks { get; set; }
+        public DbSet<playlist_track> playlist_tracks { get; set; }
         public DbSet<playlist> playlists { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -45,7 +47,7 @@ namespace chinook_lib_netstandard_ef.Model
         [Required]
         public string Name { get; set; }
 
-        public ICollection<playlist_track> tracks { get; set; }
+        public ICollection<playlist_track> tracks { get; set; } = new List<playlist_track>();
     }
     public class playlist_track
     {
@@ -55,19 +57,26 @@ namespace chinook_lib_netstandard_ef.Model
         [Key]
         [Column(Order = 2)]
         public int TrackId { get; set; }
+
+        [ForeignKey("TrackId")]
+        public track track { get; set; }
+
+        [ForeignKey("PlaylistId")]
+        public playlist playlist { get; set; }
     }
-    //public class track
-    //{
-    //    public int TrackId;
-    //    public string Name;
-    //    public int AlbumId;
-    //    public int MediaTypeId;
-    //    public int GenreId;
-    //    public string Composer;
-    //    public int Milliseconds;
-    //    public int Bytes;
-    //    public float UnitPrice;
-    //}
+    public class track
+    {
+        [Key]
+        public int? TrackId { get; set; }
+        public string Name { get; set; }
+        //public int AlbumId;
+        //public int MediaTypeId;
+        //public int GenreId;
+        //public string Composer;
+        //public int Milliseconds;
+        //public int Bytes;
+        //public float UnitPrice;
+    }
     //public class invoice
     //{
     //    public int InvoiceId;

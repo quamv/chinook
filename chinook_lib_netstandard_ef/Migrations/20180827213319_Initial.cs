@@ -46,7 +46,20 @@ namespace chinook_lib_netstandard_ef.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "playlist_track",
+                name: "tracks",
+                columns: table => new
+                {
+                    TrackId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tracks", x => x.TrackId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "playlist_tracks",
                 columns: table => new
                 {
                     PlaylistId = table.Column<int>(nullable: false),
@@ -54,14 +67,25 @@ namespace chinook_lib_netstandard_ef.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_playlist_track", x => new { x.PlaylistId, x.TrackId });
+                    table.PrimaryKey("PK_playlist_tracks", x => new { x.PlaylistId, x.TrackId });
                     table.ForeignKey(
-                        name: "FK_playlist_track_playlists_PlaylistId",
+                        name: "FK_playlist_tracks_playlists_PlaylistId",
                         column: x => x.PlaylistId,
                         principalTable: "playlists",
                         principalColumn: "PlaylistId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_playlist_tracks_tracks_TrackId",
+                        column: x => x.TrackId,
+                        principalTable: "tracks",
+                        principalColumn: "TrackId",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_playlist_tracks_TrackId",
+                table: "playlist_tracks",
+                column: "TrackId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -73,10 +97,13 @@ namespace chinook_lib_netstandard_ef.Migrations
                 name: "media_types");
 
             migrationBuilder.DropTable(
-                name: "playlist_track");
+                name: "playlist_tracks");
 
             migrationBuilder.DropTable(
                 name: "playlists");
+
+            migrationBuilder.DropTable(
+                name: "tracks");
         }
     }
 }

@@ -8,7 +8,7 @@ using chinook_lib_netstandard_ef.Model;
 namespace chinook_lib_netstandard_ef.Migrations
 {
     [DbContext(typeof(ChinookDbContext))]
-    [Migration("20180827024611_Initial")]
+    [Migration("20180827213319_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,14 +64,33 @@ namespace chinook_lib_netstandard_ef.Migrations
 
                     b.HasKey("PlaylistId", "TrackId");
 
-                    b.ToTable("playlist_track");
+                    b.HasIndex("TrackId");
+
+                    b.ToTable("playlist_tracks");
+                });
+
+            modelBuilder.Entity("chinook_lib_netstandard_ef.Model.track", b =>
+                {
+                    b.Property<int>("TrackId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("TrackId");
+
+                    b.ToTable("tracks");
                 });
 
             modelBuilder.Entity("chinook_lib_netstandard_ef.Model.playlist_track", b =>
                 {
-                    b.HasOne("chinook_lib_netstandard_ef.Model.playlist")
+                    b.HasOne("chinook_lib_netstandard_ef.Model.playlist", "playlist")
                         .WithMany("tracks")
                         .HasForeignKey("PlaylistId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("chinook_lib_netstandard_ef.Model.track", "track")
+                        .WithMany()
+                        .HasForeignKey("TrackId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

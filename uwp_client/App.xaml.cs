@@ -14,6 +14,8 @@ namespace uwp_client
     /// </summary>
     sealed partial class App : Application
     {
+        Type default_page = typeof(Playlist);
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -63,7 +65,7 @@ namespace uwp_client
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    rootFrame.Navigate(default_page, e.Arguments);
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
