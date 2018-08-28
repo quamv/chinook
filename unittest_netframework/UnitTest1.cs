@@ -13,7 +13,7 @@ namespace unittest_netframework
     }
 
     [TestClass]
-    public class UnitTest1
+    public class db_file_creation_tests
     {
         private void create_db_if_not_exists()
         {
