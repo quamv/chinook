@@ -29,34 +29,47 @@ namespace uwp_client
             this.InitializeComponent();
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private void add_sample_data_to_db()
         {
-            using (var db = new ChinookDbContext())
+            try
             {
-                var playlist = db.playlists.Include("tracks").FirstOrDefault();
-
-                if (playlist == null)
+                using (var db = new ChinookDbContext())
                 {
-                    var new_track = new track() { TrackId = null, Name = "Bad Medicine" };
-                    db.tracks.Add(new_track);
-                    db.SaveChanges();
+                    var playlist = db.playlists.Include("tracks").FirstOrDefault();
 
-                    var new_playlist = new playlist() { PlaylistId = 0, Name = "Test playlist" };
-                    db.playlists.Add(new_playlist);
-                    db.SaveChanges();
+                    if (playlist == null)
+                    {
+                        var new_track = new track() { TrackId = null, Name = "Bad Medicine" };
+                        db.tracks.Add(new_track);
 
-                    var new_playlist_track = new playlist_track() { PlaylistId = new_playlist.PlaylistId, TrackId = (int)new_track.TrackId };
-                    new_playlist.tracks.Add(new_playlist_track);
-                    //db.playlists.Add(new_playlist);
-                    db.SaveChanges();
+                        var new_playlist = new playlist() { PlaylistId = 0, Name = "Test playlist" };
+                        db.playlists.Add(new_playlist);
 
-                    Tracks.ItemsSource = new_playlist.tracks;
-                }
-                else
-                {
-                    Tracks.ItemsSource = playlist.tracks; // db.playlists.Include("tracks").ToList();
+                        var ref_playlist_track = new playlist_track() { playlist = new_playlist, track = new_track };
+                        new_playlist.tracks.Add(ref_playlist_track);
+                        db.SaveChanges();
+
+                        Tracks.ItemsSource = new_playlist.tracks;
+                    }
+                    else
+                    {
+                        Tracks.ItemsSource = playlist.tracks; // db.playlists.Include("tracks").ToList();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine("Error: \n" + ex.Message);
+                if (ex.InnerException != null)
+                {
+                    System.Console.WriteLine("Inner Exception: \n" + ex.InnerException.Message);
+                }
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            add_sample_data_to_db();
         }
 
         private void Go_Click(object sender, RoutedEventArgs e)
