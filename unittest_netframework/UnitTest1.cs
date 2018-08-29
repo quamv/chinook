@@ -7,11 +7,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace unittest_netframework
 {
-    public class SampleData
-    {
-        List<track> tracks = new List<track>() { new track() { Name = "Bad Medicine" } };
-    }
-
     [TestClass]
     public class db_file_creation_tests
     {
@@ -60,17 +55,23 @@ namespace unittest_netframework
 
         public void add_sample_data(ChinookDbContext db)
         {
-            var new_track = new track() { TrackId = null, Name = "Bad Medicine" };
-            db.tracks.Add(new_track);
+            var digital_download = new media_type() { Name = "Digital Download" };
+            var rock_genre = new genre() { Name = "Rock" };
+            var new_artist = new artist() { Name = "Bob Sacamano" };
+            var new_album = new album() { Title = "My stuff 2018", Artist = new_artist };
+            var new_track = new track() { TrackId = null, Name = "Bad Medicine", Album = new_album, Genre = rock_genre, MediaType = digital_download };
             var new_playlist = new playlist() { PlaylistId = 0, Name = "Test playlist" };
-            db.playlists.Add(new_playlist);
             var ref_playlist_track = new playlist_track() { playlist = new_playlist, track = new_track };
             new_playlist.tracks.Add(ref_playlist_track);
+            db.playlist_tracks.Add(ref_playlist_track);
             db.SaveChanges();
         }
 
         private void verify_sample_data_in_database(ChinookDbContext db)
         {
+            var digital_download = db.media_types.Where(mt => mt.Name == "Digital Download").Single();
+            var sample_artist = db.artists.Where(artist => artist.Name == "Bob Sacamano").Single();
+            var playlists = db.playlists.ToList();
             var playlist = db.playlists.Include("tracks").FirstOrDefault();
             Assert.IsNotNull(playlist);
             Assert.IsNotNull(playlist.tracks);

@@ -14,9 +14,11 @@ namespace chinook_lib_netstandard_ef.Model
 
         string _dsn = null;
 
-        public DbSet<media_type> media_types{ get; set; }
+        public DbSet<media_type> media_types { get; set; }
         public DbSet<genre> genres { get; set; }
         public DbSet<track> tracks { get; set; }
+        public DbSet<artist> artists{ get; set; }
+        public DbSet<album> albums{ get; set; }
         public DbSet<playlist_track> playlist_tracks { get; set; }
         public DbSet<playlist> playlists { get; set; }
 
@@ -49,7 +51,7 @@ namespace chinook_lib_netstandard_ef.Model
         public int GenreId { get; set; }
         [Required]
         public string Name { get; set; }
-    }   
+    }
     public class playlist
     {
         public int PlaylistId { get; set; }
@@ -61,7 +63,7 @@ namespace chinook_lib_netstandard_ef.Model
     public class playlist_track
     {
         [Key]
-        [Column(Order=1)]
+        [Column(Order = 1)]
         public int PlaylistId { get; set; }
         [Key]
         [Column(Order = 2)]
@@ -78,13 +80,37 @@ namespace chinook_lib_netstandard_ef.Model
         [Key]
         public int? TrackId { get; set; }
         public string Name { get; set; }
-        //public int AlbumId;
-        //public int MediaTypeId;
-        //public int GenreId;
-        //public string Composer;
-        //public int Milliseconds;
-        //public int Bytes;
-        //public float UnitPrice;
+
+        public int AlbumId { get; set; }
+        [ForeignKey("AlbumId")]
+        public album Album { get; set; }
+
+        public int MediaTypeId { get; set; }
+        [ForeignKey("MediaTypeId")]
+        public media_type MediaType { get; set; }
+
+        public int GenreId { get; set; }
+        [ForeignKey("GenreId")]
+        public genre Genre { get; set; }
+
+        public string Composer { get; set; }
+        public int Milliseconds { get; set; }
+        public int Bytes { get; set; }
+        public float UnitPrice { get; set; }
+    }
+    public class album
+    {
+        public int AlbumId { get; set; }
+        public string Title { get; set; }
+
+        public int ArtistId { get; set; }
+        [ForeignKey("ArtistId")]
+        public artist Artist { get; set; }
+    }
+    public class artist
+    {
+        public int ArtistId { get; set; }
+        public string Name { get; set; }
     }
     //public class invoice
     //{
@@ -103,17 +129,6 @@ namespace chinook_lib_netstandard_ef.Model
     //    public int TrackId;
     //    public float UnitPrice;
     //    public int Quantity;
-    //}
-    //public class album
-    //{
-    //    public int AlbumId;
-    //    public string Title;
-    //    public int ArtistId;
-    //}
-    //public class artist
-    //{
-    //    public int ArtistId;
-    //    public string Name;
     //}
     //public class customer
     //{
