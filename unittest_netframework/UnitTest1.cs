@@ -59,7 +59,7 @@ namespace unittest_netframework
             var rock_genre = new genre() { Name = "Rock" };
             var new_artist = new artist() { Name = "Bob Sacamano" };
             var new_album = new album() { Title = "My stuff 2018", Artist = new_artist };
-            var new_track = new track() { TrackId = null, Name = "Bad Medicine", Album = new_album, Genre = rock_genre, MediaType = digital_download };
+            var new_track = new track() { Name = "Bad Medicine", Album = new_album, Genre = rock_genre, MediaType = digital_download };
             var new_playlist = new playlist() { PlaylistId = 0, Name = "Test playlist" };
             var ref_playlist_track = new playlist_track() { playlist = new_playlist, track = new_track };
             new_playlist.tracks.Add(ref_playlist_track);

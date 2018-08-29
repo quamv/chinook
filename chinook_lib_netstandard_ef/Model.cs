@@ -17,8 +17,8 @@ namespace chinook_lib_netstandard_ef.Model
         public DbSet<media_type> media_types { get; set; }
         public DbSet<genre> genres { get; set; }
         public DbSet<track> tracks { get; set; }
-        public DbSet<artist> artists{ get; set; }
-        public DbSet<album> albums{ get; set; }
+        public DbSet<artist> artists { get; set; }
+        public DbSet<album> albums { get; set; }
         public DbSet<playlist_track> playlist_tracks { get; set; }
         public DbSet<playlist> playlists { get; set; }
 
@@ -78,7 +78,7 @@ namespace chinook_lib_netstandard_ef.Model
     public class track
     {
         [Key]
-        public int? TrackId { get; set; }
+        public int TrackId { get; set; }
         public string Name { get; set; }
 
         public int AlbumId { get; set; }
@@ -112,48 +112,58 @@ namespace chinook_lib_netstandard_ef.Model
         public int ArtistId { get; set; }
         public string Name { get; set; }
     }
-    //public class invoice
-    //{
-    //    public int InvoiceId;
-    //    public int CustomerId;
-    //    public DateTime InvoiceDate;
-    //    public string BillingAddress;
-    //    public string BillingCity;
-    //    public string BillingState;
-    //    public string BillingZip;
-    //}
-    //public class invoice_item
-    //{
-    //    public int InvoiceItemId;
-    //    public int InvoiceId;
-    //    public int TrackId;
-    //    public float UnitPrice;
-    //    public int Quantity;
-    //}
-    //public class customer
-    //{
-    //    public int CustomerId;
-    //    public string FirstName;
-    //    public string LastName;
-    //    public string Company;
-    //    public string Address;
-    //    public string City;
-    //    public string State;
-    //    public string Country;
-    //    public string PostalCode;
-    //    public string Phone;
-    //    public string Fax;
-    //    public string Email;
-    //    public int SupportRepId;
-    //}
-    //public class employee
-    //{
-    //    public int EmployeeId;
-    //    public string LastName;
-    //    public string FirstName;
-    //    public string Title;
-    //    public int ReportsTo;
-    //    public DateTime BirthDate;
-    //}
+    public class invoice
+    {
+        public int InvoiceId { get; set; }
+
+        public int CustomerId { get; set; }
+        [ForeignKey("CustomerId")]
+        public customer Customer { get; set; }
+
+        public ICollection<invoice_item> InvoiceItems { get; set; }
+
+        public DateTime InvoiceDate { get; set; }
+        public string BillingAddress { get; set; }
+        public string BillingCity { get; set; }
+        public string BillingState { get; set; }
+        public string BillingZip { get; set; }
+    }
+    public class invoice_item
+    {
+        public int InvoiceItemId { get; set; }
+
+        public int InvoiceId { get; set; }
+        [ForeignKey("InvoiceId")]
+        public invoice Invoice { get; set; }
+
+        public int TrackId { get; set; }
+        public float UnitPrice { get; set; }
+        public int Quantity { get; set; }
+    }
+    public class customer
+    {
+        public int CustomerId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Company { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Country { get; set; }
+        public string PostalCode { get; set; }
+        public string Phone { get; set; }
+        public string Fax { get; set; }
+        public string Email { get; set; }
+        public int SupportRepId { get; set; }
+    }
+    public class employee
+    {
+        public int EmployeeId { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public string Title { get; set; }
+        public int ReportsTo { get; set; }
+        public DateTime BirthDate { get; set; }
+    }
 
 }

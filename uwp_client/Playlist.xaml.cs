@@ -39,14 +39,11 @@ namespace uwp_client
 
                     if (playlist == null)
                     {
-                        var new_track = new track() { TrackId = null, Name = "Bad Medicine" };
-                        db.tracks.Add(new_track);
-
+                        var new_track = new track() { Name = "Bad Medicine" };
                         var new_playlist = new playlist() { PlaylistId = 0, Name = "Test playlist" };
-                        db.playlists.Add(new_playlist);
-
                         var ref_playlist_track = new playlist_track() { playlist = new_playlist, track = new_track };
                         new_playlist.tracks.Add(ref_playlist_track);
+                        db.playlists.Add(new_playlist);
                         db.SaveChanges();
 
                         Tracks.ItemsSource = new_playlist.tracks;
