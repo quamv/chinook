@@ -9,11 +9,6 @@ namespace chinook_lib_netstandard_ef.Model
 {
     public class ChinookDbContext : DbContext
     {
-        public const string default_filename = "chinook.db";
-        const string default_dsn = "Data Source=" + default_filename;
-
-        string _dsn = null;
-
         public DbSet<media_type> media_types { get; set; }
         public DbSet<genre> genres { get; set; }
         public DbSet<track> tracks { get; set; }
@@ -21,6 +16,9 @@ namespace chinook_lib_netstandard_ef.Model
         public DbSet<album> albums { get; set; }
         public DbSet<playlist_track> playlist_tracks { get; set; }
         public DbSet<playlist> playlists { get; set; }
+
+        public const string default_filename = "chinook.db";
+        string _dsn = null;
 
         public ChinookDbContext(string db_filename) 
             => _dsn = "Data Source=" + db_filename;
