@@ -10,6 +10,27 @@ namespace unittest_netframework
     [TestClass]
     public class db_file_creation_tests
     {
+        [TestMethod]
+        public void should_create_databasefile_with_default_name()
+            => delete_and_create_db_file(ChinookDbContext.default_filename);
+
+        [TestMethod]
+        public void should_create_db_with_custom_filename()
+            => delete_and_create_db_file("chinook_customdb.db");
+
+        [TestMethod]
+        public void should_create_db_with_custom_filepath()
+            => delete_and_create_db_file("c:\\temp\\chinook_customdb.db");
+
+        [TestMethod]
+        public void should_create_db_and_load_data()
+        {
+            var db = delete_and_create_db_file("chinook_customdb.db");
+            add_sample_data(db);
+            verify_sample_data_in_database(db);
+        }
+
+
         private ChinookDbContext create_db_file(string filepath)
         {
             var db = new ChinookDbContext(filepath);
@@ -31,26 +52,6 @@ namespace unittest_netframework
         {
             System.IO.File.Delete(ChinookDbContext.default_filename);
             return create_db_file(ChinookDbContext.default_filename);
-        }
-
-        [TestMethod]
-        public void should_create_databasefile_with_default_name()
-            => delete_and_create_db_file(ChinookDbContext.default_filename);
-
-        [TestMethod]
-        public void should_create_db_with_custom_filename()
-            => delete_and_create_db_file("chinook_customdb.db");
-
-        [TestMethod]
-        public void should_create_db_with_custom_filepath()
-            => delete_and_create_db_file("c:\\temp\\chinook_customdb.db");
-
-        [TestMethod]
-        public void should_create_db_and_load_data()
-        {
-            var db = delete_and_create_db_file("chinook_customdb.db");
-            add_sample_data(db);
-            verify_sample_data_in_database(db);
         }
 
         public void add_sample_data(ChinookDbContext db)
@@ -78,5 +79,6 @@ namespace unittest_netframework
             Assert.AreEqual(1, playlist.tracks.Count);
             Assert.AreEqual(1, playlist.tracks.First().TrackId);
         }
+
     }
 }
