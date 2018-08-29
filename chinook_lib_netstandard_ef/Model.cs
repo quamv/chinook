@@ -22,22 +22,17 @@ namespace chinook_lib_netstandard_ef.Model
         public DbSet<playlist_track> playlist_tracks { get; set; }
         public DbSet<playlist> playlists { get; set; }
 
-        public ChinookDbContext(string db_filename)
-        {
-            _dsn = "Data Source=" + db_filename;
-        }
-        public ChinookDbContext() : this(default_filename) { }
+        public ChinookDbContext(string db_filename) 
+            => _dsn = "Data Source=" + db_filename;
+        
+        public ChinookDbContext() 
+            : this(default_filename) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite(_dsn);
-        }
+            => optionsBuilder.UseSqlite(_dsn);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<playlist_track>()
-                .HasKey(c => new { c.PlaylistId, c.TrackId }); // c.FarmerSS, c.HotelID });
-        }
+            => modelBuilder.Entity<playlist_track>().HasKey(c => new { c.PlaylistId, c.TrackId }); 
     }
 
     public class media_type
