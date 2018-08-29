@@ -15,49 +15,45 @@ namespace unittest_netframework
     [TestClass]
     public class db_file_creation_tests
     {
-        private void create_db_if_not_exists()
-        {
-            var db = new ChinookDbContext();
-            db.Database.Migrate();
-        }
-
-        [TestInitialize]
-        public void test_initialize()
-        {
-            //create_db_if_not_exists();
-        }
-
         private ChinookDbContext create_db_file(string filepath)
         {
-            System.IO.File.Delete(filepath); // ChinookDbContext.default_filename);
             var db = new ChinookDbContext(filepath);
+            
+            // file is only created on call to Migrate
             db.Database.Migrate();
+
             // verify the expected file was created
             if (!System.IO.File.Exists(filepath))
                 Assert.Fail("File: " + filepath + " was not created as expected.");
+
             // verify that the tables were created
             var num_tracks = db.tracks.Count();
-            add_sample_data(db);
 
             return db;
         }
 
-        [TestMethod]
-        public void should_create_databasefile_with_default_name()
+        private ChinookDbContext delete_and_create_db_file(string filepath)
         {
-            create_db_file(ChinookDbContext.default_filename);
+            System.IO.File.Delete(ChinookDbContext.default_filename);
+            return create_db_file(ChinookDbContext.default_filename);
         }
 
         [TestMethod]
+        public void should_create_databasefile_with_default_name()
+            => delete_and_create_db_file(ChinookDbContext.default_filename);
+
+        [TestMethod]
         public void should_create_db_with_custom_filename()
-        {
-            create_db_file("chinook_customdb.db");
-        }
+            => delete_and_create_db_file("chinook_customdb.db");
+
+        [TestMethod]
+        public void should_create_db_with_custom_filepath()
+            => delete_and_create_db_file("c:\\temp\\chinook_customdb.db");
 
         [TestMethod]
         public void should_create_db_and_load_data()
         {
-            var db = create_db_file("chinook_customdb.db");
+            var db = delete_and_create_db_file("chinook_customdb.db");
             add_sample_data(db);
             verify_sample_data_in_database(db);
         }
