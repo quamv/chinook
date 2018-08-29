@@ -43,69 +43,47 @@ namespace chinook_lib_netstandard_ef.Model
     public class media_type
     {
         public int Media_TypeId { get; set; }
-        [Required]
-        public string Name { get; set; }
+        [Required] public string Name { get; set; }
     }
     public class genre
     {
         public int GenreId { get; set; }
-        [Required]
-        public string Name { get; set; }
+        [Required] public string Name { get; set; }
     }
     public class playlist
     {
         public int PlaylistId { get; set; }
-        [Required]
-        public string Name { get; set; }
-
+        [Required] public string Name { get; set; }
         public ICollection<playlist_track> tracks { get; set; } = new List<playlist_track>();
     }
     public class playlist_track
     {
-        [Key]
-        [Column(Order = 1)]
-        public int PlaylistId { get; set; }
-        [Key]
-        [Column(Order = 2)]
-        public int TrackId { get; set; }
-
-        [ForeignKey("TrackId")]
-        public track track { get; set; }
-
-        [ForeignKey("PlaylistId")]
-        public playlist playlist { get; set; }
+        [Key] [Column(Order = 1)] public int PlaylistId { get; set; }
+        [Key] [Column(Order = 2)] public int TrackId { get; set; }
+        [ForeignKey("TrackId")] public track track { get; set; }
+        [ForeignKey("PlaylistId")] public playlist playlist { get; set; }
     }
     public class track
     {
-        [Key]
         public int TrackId { get; set; }
         public string Name { get; set; }
-
         public int AlbumId { get; set; }
-        [ForeignKey("AlbumId")]
-        public album Album { get; set; }
-
         public int MediaTypeId { get; set; }
-        [ForeignKey("MediaTypeId")]
-        public media_type MediaType { get; set; }
-
         public int GenreId { get; set; }
-        [ForeignKey("GenreId")]
-        public genre Genre { get; set; }
-
         public string Composer { get; set; }
         public int Milliseconds { get; set; }
         public int Bytes { get; set; }
         public float UnitPrice { get; set; }
+        [ForeignKey("AlbumId")] public album Album { get; set; }
+        [ForeignKey("MediaTypeId")] public media_type MediaType { get; set; }
+        [ForeignKey("GenreId")] public genre Genre { get; set; }
     }
     public class album
     {
         public int AlbumId { get; set; }
         public string Title { get; set; }
-
         public int ArtistId { get; set; }
-        [ForeignKey("ArtistId")]
-        public artist Artist { get; set; }
+        [ForeignKey("ArtistId")] public artist Artist { get; set; }
     }
     public class artist
     {
@@ -115,30 +93,23 @@ namespace chinook_lib_netstandard_ef.Model
     public class invoice
     {
         public int InvoiceId { get; set; }
-
         public int CustomerId { get; set; }
-        [ForeignKey("CustomerId")]
-        public customer Customer { get; set; }
-
-        public ICollection<invoice_item> InvoiceItems { get; set; }
-
         public DateTime InvoiceDate { get; set; }
         public string BillingAddress { get; set; }
         public string BillingCity { get; set; }
         public string BillingState { get; set; }
         public string BillingZip { get; set; }
+        public ICollection<invoice_item> InvoiceItems { get; set; }
+        [ForeignKey("CustomerId")] public customer Customer { get; set; }
     }
     public class invoice_item
     {
         public int InvoiceItemId { get; set; }
-
         public int InvoiceId { get; set; }
-        [ForeignKey("InvoiceId")]
-        public invoice Invoice { get; set; }
-
         public int TrackId { get; set; }
         public float UnitPrice { get; set; }
         public int Quantity { get; set; }
+        [ForeignKey("InvoiceId")] public invoice Invoice { get; set; }
     }
     public class customer
     {
@@ -165,5 +136,4 @@ namespace chinook_lib_netstandard_ef.Model
         public int ReportsTo { get; set; }
         public DateTime BirthDate { get; set; }
     }
-
 }
