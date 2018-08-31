@@ -30,7 +30,13 @@ namespace chinook_lib_netstandard_ef.Model
             => optionsBuilder.UseSqlite(_dsn);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            => modelBuilder.Entity<playlist_track>().HasKey(c => new { c.PlaylistId, c.TrackId }); 
+        {
+            modelBuilder.Entity<media_type>().HasIndex(o => new { o.Name }).IsUnique();
+            modelBuilder.Entity<genre>().HasIndex(o => new { o.Name }).IsUnique();
+            modelBuilder.Entity<playlist>().HasIndex(o => new { o.Name }).IsUnique();
+            modelBuilder.Entity<artist>().HasIndex(o => new { o.Name }).IsUnique();
+            modelBuilder.Entity<playlist_track>().HasKey(o => new { o.PlaylistId, o.TrackId });
+        }
     }
 
     public class media_type
@@ -81,7 +87,7 @@ namespace chinook_lib_netstandard_ef.Model
     public class artist
     {
         public int ArtistId { get; set; }
-        public string Name { get; set; }
+        [Required] public string Name { get; set; }
     }
     public class invoice
     {

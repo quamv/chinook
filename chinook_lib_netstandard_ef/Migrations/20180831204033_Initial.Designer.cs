@@ -8,7 +8,7 @@ using chinook_lib_netstandard_ef.Model;
 namespace chinook_lib_netstandard_ef.Migrations
 {
     [DbContext(typeof(ChinookDbContext))]
-    [Migration("20180829192319_Initial")]
+    [Migration("20180831204033_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,9 +38,13 @@ namespace chinook_lib_netstandard_ef.Migrations
                     b.Property<int>("ArtistId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("ArtistId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("artists");
                 });
@@ -55,6 +59,9 @@ namespace chinook_lib_netstandard_ef.Migrations
 
                     b.HasKey("GenreId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("genres");
                 });
 
@@ -68,6 +75,9 @@ namespace chinook_lib_netstandard_ef.Migrations
 
                     b.HasKey("Media_TypeId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("media_types");
                 });
 
@@ -80,6 +90,9 @@ namespace chinook_lib_netstandard_ef.Migrations
                         .IsRequired();
 
                     b.HasKey("PlaylistId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("playlists");
                 });

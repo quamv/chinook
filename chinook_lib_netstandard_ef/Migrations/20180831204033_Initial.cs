@@ -12,7 +12,7 @@ namespace chinook_lib_netstandard_ef.Migrations
                 {
                     ArtistId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -146,9 +146,33 @@ namespace chinook_lib_netstandard_ef.Migrations
                 column: "ArtistId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_artists_Name",
+                table: "artists",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_genres_Name",
+                table: "genres",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_media_types_Name",
+                table: "media_types",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_playlist_tracks_TrackId",
                 table: "playlist_tracks",
                 column: "TrackId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_playlists_Name",
+                table: "playlists",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_tracks_AlbumId",

@@ -30,6 +30,25 @@ namespace unittest_netframework
             verify_sample_data_in_database(db);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(Microsoft.EntityFrameworkCore.DbUpdateException))]
+        public void should_throw_on_duplicate()
+        {
+            var db = delete_and_create_db_file("chinook_customdb.db");
+            add_sample_data(db);
+            verify_sample_data_in_database(db);
+            db.genres.Add(new genre() { Name = "Rock" });
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException ex)
+            {
+                Assert.AreEqual(19, ((Microsoft.Data.Sqlite.SqliteException)ex.InnerException).SqliteErrorCode);
+                throw;
+            }
+        }
+
 
         private ChinookDbContext create_db_file(string filepath)
         {

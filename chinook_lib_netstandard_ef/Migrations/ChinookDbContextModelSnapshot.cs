@@ -36,9 +36,13 @@ namespace chinook_lib_netstandard_ef.Migrations
                     b.Property<int>("ArtistId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("ArtistId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("artists");
                 });
@@ -53,6 +57,9 @@ namespace chinook_lib_netstandard_ef.Migrations
 
                     b.HasKey("GenreId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("genres");
                 });
 
@@ -66,6 +73,9 @@ namespace chinook_lib_netstandard_ef.Migrations
 
                     b.HasKey("Media_TypeId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("media_types");
                 });
 
@@ -78,6 +88,9 @@ namespace chinook_lib_netstandard_ef.Migrations
                         .IsRequired();
 
                     b.HasKey("PlaylistId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("playlists");
                 });
