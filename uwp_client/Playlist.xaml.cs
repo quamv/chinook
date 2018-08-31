@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Navigation;
 namespace uwp_client
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Playlist sample page.
     /// </summary>
     public sealed partial class Playlist : Page
     {
